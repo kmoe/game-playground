@@ -1,0 +1,29 @@
+{
+  "name": "game-playground",
+  "version": "1.0.0",
+  "description": "game playground",
+  "main": "index.js",
+  "dependencies": {
+    "phaser": "^2.4.8"
+  },
+  "devDependencies": {
+    "babel-core": "^6.9.1",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.9.0",
+    "webpack": "^1.13.1",
+    "webpack-dev-server": "^1.14.1"
+  },
+  "scripts": {
+    "test": "hahahahaha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kmoe/game-playground.git"
+  },
+  "author": "Katy Moe <katy@katy.moe> (http://katy.moe)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kmoe/game-playground/issues"
+  },
+  "homepage": "https://github.com/kmoe/game-playground#readme"
+}
