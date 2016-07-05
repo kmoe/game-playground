@@ -2,6 +2,14 @@ import Phaser from 'phaser';
 
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload, create, update });
 
+// TODO
+// 1. spawn stuff when a button is pressed
+// 2. add diamond
+// 3. add first aid
+// 4. health?
+// 5. baddie movement - add jumps
+// 6. add time element?
+
 function preload() {
   console.log('loading assets...');
   game.load.image('sky', 'assets/sky.png');
@@ -22,7 +30,7 @@ let stars;
 let baddie;
 
 function create() {
-  console.log('create');
+  console.log('creating scene...');
 
   // SETTING
 
@@ -105,7 +113,11 @@ function create() {
 
   //SCORE
   scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+
+  console.log('scene created');
 }
+
+let baddieVelocity;
 
 function update() {
   // console.log('update'); //lol
@@ -124,11 +136,11 @@ function update() {
 
   if (cursors.left.isDown)
   {
-    moveLeft(player, 150);
+    move(player, -150);
   }
   else if (cursors.right.isDown)
   {
-    moveRight(player, 150);
+    move(player, 150);
   }
   else
   {
@@ -148,27 +160,27 @@ function update() {
   // BADDIE
 
   // move randomly behaviour
-  const direction = (Math.random() * 100) % 2;
-  
+
+  const initialDirection = rollDie(2);
+
+  const directionShouldChange = rollDie(200) > 199;
+
 
   const velocity = Math.random() * 100;
 
-  if (direction) {
-    moveLeft(baddie, velocity);
-  } else {
-    moveRight(baddie, velocity);
+  if (!baddieVelocity) {
+    baddieVelocity = initialDirection ? velocity : -velocity;
   }
 
+  if (directionShouldChange) {
+    baddieVelocity = -baddieVelocity;
+  }
+
+  move(baddie, baddieVelocity);
 
 
   game.physics.arcade.overlap(player, stars, collectStar, null, this);
 }
-
-console.log('initialised');
-
-document.write('initialised 2');
-
-console.log(game);
 
 function collectStar (player, star) {
 
@@ -187,12 +199,20 @@ function killEnemy (player, enemy) {
   scoreText.text = 'Score: ' + score;
 }
 
-function moveRight (sprite, velocity) {
+function move (sprite, velocity) {
   sprite.body.velocity.x = velocity;
-  sprite.animations.play('right');
+
+  if (velocity > 0) {
+    sprite.animations.play('right');
+  } else {
+    sprite.animations.play('left');
+  }
 }
 
-function moveLeft (sprite, velocity) {
-  sprite.body.velocity.x = -velocity;
-  sprite.animations.play('left');
+function jump (sprite, velocity) {
+  sprite.body.velocity.y
+}
+
+function rollDie(sides) {
+  return Math.floor(Math.random() * sides) + 1;
 }
